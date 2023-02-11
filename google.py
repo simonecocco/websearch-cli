@@ -45,7 +45,7 @@ def search(text):
         query += ' (' + ' OR '.join(f'site:{x}' for x in sites) + ')'
     no_sites = text.get('no_site', None)
     if no_sites is not None:
-        query += ' (' + ' AND '.join(f'-site:{x}' for x in sites) + ')'
+        query += ' (' + ' AND '.join(f'-site:{x}' for x in no_sites) + ')'
     cache = text.get('cache', None)
     if cache is not None:
         query += f' cache:{cache[0]}'
