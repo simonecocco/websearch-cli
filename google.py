@@ -1,5 +1,6 @@
 import argparse
 import webbrowser
+import sys
 from urllib.parse import quote
 
 def search(text):
@@ -42,10 +43,10 @@ def search(text):
         query += f' {convert[0]} in {convert[1]}'
     sites = text.get('site', None)
     if sites is not None:
-        query += ' (' + ' OR '.join(f'site:{x}' for x in sites) + ')'
+        query += ' ' + ' OR '.join(f'site:{x}' for x in sites)
     no_sites = text.get('no_site', None)
     if no_sites is not None:
-        query += ' (' + ' AND '.join(f'-site:{x}' for x in no_sites) + ')'
+        query += ' ' + ' AND '.join(f'-site:{x}' for x in no_sites)
     cache = text.get('cache', None)
     if cache is not None:
         query += f' cache:{cache[0]}'
@@ -95,4 +96,9 @@ if __name__ == '__main__':
     parser.add_argument('-qT', '--in-title', dest='in_title', type=str, nargs='+', help='Search a word or a phrase into sites url')
     parser.add_argument('-qu', '--in-url', dest='in_url', type=str, nargs='+', help='Search a word or a phrase into sites url')
     args = vars(parser.parse_args())
-    search(args)
+    if len(list(filter(lambda x: x is not None, args.values()))) <= 1:
+        query = sys.stdin.readline()
+        url_string = f'https://google.com/search?q={quote(query)}'
+        webbrowser.open_new_tab(url_string)
+    else:
+        search(args)
