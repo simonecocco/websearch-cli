@@ -96,7 +96,7 @@ if __name__ == '__main__':
     parser.add_argument('-qT', '--in-title', dest='in_title', type=str, nargs='+', help='Search a word or a phrase into sites url')
     parser.add_argument('-qu', '--in-url', dest='in_url', type=str, nargs='+', help='Search a word or a phrase into sites url')
     args = vars(parser.parse_args())
-    if len(list(filter(lambda x: x is not None, args.values()))) <= 1:
+    if len(list(filter(lambda x: x is not None, args.values()))) == 0:
         query = sys.stdin.readline()
         url_string = f'https://google.com/search?q={quote(query)}'
         webbrowser.open_new_tab(url_string)
